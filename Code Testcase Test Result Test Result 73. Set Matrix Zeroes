@@ -1,0 +1,42 @@
+import java.util.ArrayList; 
+import java.util.List;
+
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        int[][] matrixCoordinates = new int[matrix.length][2];
+        int size = 0;
+        List<IndexCoordinates> indexCoordinatesList = new ArrayList(); 
+        for (int i = 0; i < matrix.length; i++) {
+
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] == 0) {
+
+                    IndexCoordinates indexCoor = new IndexCoordinates(); 
+                    indexCoor.x = i; 
+                    indexCoor.y = j; 
+                    indexCoordinatesList.add(indexCoor);
+                    System.out.println("Into the loop :" + indexCoor.x + "," + indexCoor.y);
+                   
+                }
+            }
+
+        }
+
+        for (IndexCoordinates indexCoor : indexCoordinatesList) {
+            int x = indexCoor.x;
+            int y = indexCoor.y;
+            for (int m = 0; m < matrix[x].length; m++) {
+                matrix[x][m] = 0;
+            }
+
+            for (int n = 0; n < matrix.length; n++) {
+                matrix[n][y] = 0;
+            }
+        }
+    }
+}
+
+class IndexCoordinates {
+    public int x; 
+    public int y; 
+}
