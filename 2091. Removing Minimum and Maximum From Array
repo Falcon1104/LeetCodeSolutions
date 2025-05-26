@@ -1,0 +1,66 @@
+import java.util.*; 
+class Solution {
+    public int minimumDeletions(int[] nums) {
+        PriorityQueue<Integer> smallestElementQueue = new PriorityQueue<Integer>(); 
+        PriorityQueue<Integer> largestElementQueue = new PriorityQueue<Integer>(Comparator.reverseOrder());
+        PriorityQueue<Integer> smallestDistanceToRemove = new PriorityQueue<Integer>(); 
+
+        if (nums.length == 1) {
+            return 1; 
+        }
+        
+        for (int num : nums) {
+            smallestElementQueue.add(num);
+            largestElementQueue.add(num);
+        }
+
+        int smallest = smallestElementQueue.poll(); 
+        int largest = largestElementQueue.poll(); 
+        int smallestIndex = getIndex(nums, smallest);
+        int largestIndex = getIndex(nums, largest); 
+
+        int deletionNum = 0; 
+      
+        int[] distanceForSmallest = getDiff(smallestIndex, nums.length);
+        int[] distanceForLargest = getDiff(largestIndex, nums.length); 
+
+        deletionNum = distanceForSmallest[0] < distanceForLargest[0] ? distanceForLargest[0] : distanceForSmallest[0];
+        smallestDistanceToRemove.add(deletionNum);
+        deletionNum = distanceForSmallest[1] < distanceForLargest[1] ? distanceForLargest[1] : distanceForSmallest[1];
+        smallestDistanceToRemove.add(deletionNum);
+        deletionNum = distanceForSmallest[1] + distanceForLargest[0];
+        smallestDistanceToRemove.add(deletionNum);
+        deletionNum = distanceForSmallest[0] + distanceForLargest[1];
+        smallestDistanceToRemove.add(deletionNum);
+        
+        return smallestDistanceToRemove.poll(); 
+    }
+
+    public static int getIndex(int[] array, int element) {
+        int index = 0; 
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == element) {
+                index = i; 
+                break;
+            }
+        }
+        return index; 
+    }
+
+    public static int[] getDiff(int index, int length) {
+        int distToStart =  0;
+        for (int i = 0; i <= index; i++) {
+            distToStart++; 
+        }
+        
+        int distToEnd = 0;
+        for (int i = index; i <= length-1; i++) {
+            distToEnd++; 
+        }
+        int[] distanceArray = new int[2]; 
+        distanceArray[0] = Math.abs(distToStart); 
+        distanceArray[1] = Math.abs(distToEnd); 
+        
+        return distanceArray; 
+    }
+}
