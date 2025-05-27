@@ -1,0 +1,16 @@
+class Solution {
+    public int differenceOfSums(int n, int m) {
+       int notDivisibleByM = 0; 
+       int divisibleByM = 0;
+
+       for (int i = 1; i <= n; i++) {
+            if (i % m == 0) {
+                divisibleByM += i; 
+            } else {
+                notDivisibleByM += i; 
+            }
+       }
+
+       return (notDivisibleByM - divisibleByM);     
+    }
+}
